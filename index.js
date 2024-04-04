@@ -18,10 +18,6 @@ app.get("/", function (req, res) {
   res.sendFile(__dirname + '/views/index.html');
 });
 //  const invalidate = (date)=> date.toUTCString() === 'Invalid date'
-
-
-
-// your first API endpoint... 
 app.get("/api/:date", function (req, res) {
   let dateString = req.params.date;
   
@@ -57,6 +53,17 @@ app.get("/api/:date", function (req, res) {
   });
 });
 
+app.get('/api', (req,res)=>{
+  let currentDate = new Date();
+    
+  res.json({ 
+    unix: currentDate.getTime(),
+    utc: currentDate.toUTCString() 
+  });
+  return;
+}
+
+)
 
 
 // Listen on port set in environment variable or default to 3000
