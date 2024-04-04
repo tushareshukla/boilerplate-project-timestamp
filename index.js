@@ -24,6 +24,19 @@ app.get("/", function (req, res) {
 // your first API endpoint... 
 app.get("/api/:date", function (req, res) {
   let dateString = req.params.date;
+  
+  // Check if dateString is empty
+  if (!dateString) {
+    // Create a new Date object representing the current time
+    let currentDate = new Date();
+    
+    res.json({ 
+      unix: currentDate.getTime(),
+      utc: currentDate.toUTCString() 
+    });
+    return;
+  }
+  
   let date = new Date(dateString);
   
   // Check if the date is invalid
