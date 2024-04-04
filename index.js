@@ -17,11 +17,31 @@ app.use(express.static('public'));
 app.get("/", function (req, res) {
   res.sendFile(__dirname + '/views/index.html');
 });
+//  const invalidate = (date)=> date.toUTCString() === 'Invalid date'
+
 
 
 // your first API endpoint... 
-app.get("/api/hello", function (req, res) {
-  res.json({greeting: 'hello API'});
+app.get("/api/:date", function (req, res) {
+  let dateString = req.params.date;
+  let date = new Date(dateString);
+  
+  // Check if the date is invalid
+  if (isNaN(date.getTime())) {
+    // Try parsing as Unix timestamp
+    date = new Date(parseInt(dateString));
+    
+    // Check again if the date is invalid
+    if (isNaN(date.getTime())) {
+      res.json({ error: "Invalid date" });
+      return;
+    }
+  }
+
+  res.json({ 
+    unix: date.getTime(),
+    utc: date.toUTCString() 
+  });
 });
 
 
